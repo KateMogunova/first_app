@@ -1,0 +1,110 @@
+ program Lab1;
+{$APPTYPE CONSOLE}
+
+
+Type
+
+     vector=array[1..5] of real;
+     massiv=array[1..5] of vector;
+
+
+     fft=string[20];
+     ffs=TextFile;
+     ft=array[1..7] of ffs;
+Var
+p,p1:vector;
+t,lam,mu:real;
+qq:real;
+kkk,xx,xx1:integer;
+yy,yy1:array[1..7] of integer;
+r,Reg,Grm,j,i,n,k,l,lll:integer;
+Kbp1,ush,pot,rr,Kbp,Kbg,Kbg1,Kbgg,Kbpp,s,h,a,b:real;
+y,y1,y2:vector;
+Trem,Tpodg,Tpol,Nar,Npvo,LamV,Prem,Pbp:real;
+Toj:real;
+//AA,lam:massiv;
+st:string[2];
+stt:string[6];
+stt1:string[6];
+f,f1,f2,f3:textFile;
+ fn2,fn1,fn,fn3:string[20];
+
+ff1,ff2,ff3,ff4,ff5,ff6,ff7:text;
+ffn:array[1..7] of fft;
+
+procedure lv(x: real; n: integer; a: vector; var b: vector);
+var i: integer;
+begin
+for i:=1 to N do b[i]:=0.0; for i:=1 to n do b[i]:=x*a[i];
+end;
+
+procedure sv(n:integer; a,b: vector; var c: vector);
+var i,j: integer;
+begin
+for i:=1 to n do c[i]:=0.0; for i:=1 to n do c[i]:=a[i]+b[i];
+end;
+
+procedure tm(n,m: integer; a:massiv; var b:massiv);
+var i,j: integer;
+begin
+for i:=1 to n do for j:=1 to m do b[i,j]:=0.0;
+for i:=1 to n do for j:=1 to n do b[i,j]:=a[j,i];
+end;
+
+procedure pmv(n,k: integer; a: massiv; b: vector; var c: vector);
+var i,j: integer;
+begin
+for i:=1 to n do c[i]:=0.0;
+for i:=1 to n do for j:=1 to n do c[i]:=c[i] +a[i,j]*b[j];
+ end;
+
+
+procedure fpr1(n: integer; p: vector; var pp: vector);
+begin
+//pmv(n,n,lam,p,pp);
+pp[1]:=-lam* P[1] + mu* P[2];
+pp[2]:= lam* P[1]- (lam+mu)*P[2] + 2* mu* P[3];
+pp[3]:= lam* P[2] - (lam +2*mu)* P[3] + 3* mu* P[4];
+pp[4]:= lam * P[3] - (lam+ 3* mu) * P[4] + 4* mu*P[5];
+pp[5]:= lam * P[4] -4 * mu*P[5];
+
+end;
+
+procedure rk41(n: integer; h: real; p:vector; var  p1: vector);
+
+var k,k1,k2,k3,k4,pp: vector;
+i,j: integer; s: real;
+
+begin
+fpr1(n,p,pp);
+
+for i:=1 to 5 do begin
+p1[i]:=p[i]+pp[i]*h;
+
+end;
+
+                                                  end;
+
+{********************************************************************************************************}
+ begin {main}
+ fn1:='rez.dat';
+ assignFile(ff1,fn1); rewrite(ff1);
+ n:=5;
+ Lam:=1000.0/60;
+ mu:=1/3;
+ p[1]:=1.0;
+for i:=2  to 5 do
+p[i]:=0.0;
+ //èíòåãðèðîâàíèå
+ t:=0.0;
+ h:=0.01;
+for i:=1 to 1500 do begin
+t:=t+h;
+rk41(n,h,p,p1);
+p:=p1;
+writeln(ff1,t,'   ',p1[1]:10:8,'    ',p1[2]:10:9,'    ',p1[3]:10:8,'    ',p1[4]:10:8,'    ',p1[5]:10:8);
+//readln;
+end;
+
+CloseFile(FF1);
+end.
